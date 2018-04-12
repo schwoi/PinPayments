@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using PinPayments.Models;
-using Newtonsoft.Json;
 using PinPayments.Actions;
 
 namespace PinPayments.Console
@@ -146,9 +145,6 @@ namespace PinPayments.Console
             response = ps.Charge(new PostCharge { Amount = 1500, CardToken = respCardCreate.Card.Token, Currency = "AUD", Description = "Desc", Email = "email@test.com", IPAddress = "127.0.0.1" });
             System.Console.WriteLine(response.Error); // "token_already_used"
             System.Console.WriteLine(response.Description); // "Token already used. Card tokens can only be used once, to create a charge or assign a card to a customer."
-
-
-
         }
     }
 }

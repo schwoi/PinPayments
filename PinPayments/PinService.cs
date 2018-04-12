@@ -6,9 +6,10 @@ using PinPayments.Models;
 using System.Net;
 using System.Configuration;
 using System.IO;
-using Newtonsoft.Json;
 using PinPayments.Infrastructure;
 using PinPayments.Actions;
+using System.Runtime.Serialization.Json;
+using System.Web.Script.Serialization;
 
 namespace PinPayments
 {
@@ -30,7 +31,10 @@ namespace PinPayments
             var postData = ParameterBuilder.ApplyAllParameters(c, "");
 
             var response = Requestor.PostString(url, postData);
-            return JsonConvert.DeserializeObject<CardCreateResponse>(response);
+
+            var result = JsonConverter.Deserialize<CardCreateResponse>(response);
+
+            return result;
         }
 
         public Charges Charges()
@@ -38,7 +42,8 @@ namespace PinPayments
             var url = Urls.Charges;
             var response = Requestor.GetString(url);
 
-            var result = JsonConvert.DeserializeObject<Charges>(response);
+            var result = JsonConverter.Deserialize<Charges>(response);
+
             return result;
         }
 
@@ -47,7 +52,8 @@ namespace PinPayments
             var url = Urls.CustomerCharges.Replace("{token}", customerToken);
             var response = Requestor.GetString(url);
 
-            var result = JsonConvert.DeserializeObject<Charges>(response);
+            var result = JsonConverter.Deserialize<Charges>(response);
+
             return result;
         }
 
@@ -56,7 +62,8 @@ namespace PinPayments
             var url = Urls.Charges + token;
             var response = Requestor.GetString(url);
 
-            var result = JsonConvert.DeserializeObject<ChargeDetail>(response);
+            var result = JsonConverter.Deserialize<ChargeDetail>(response);
+
             return result;
         }
 
@@ -84,8 +91,10 @@ namespace PinPayments
                 throw new PinException(HttpStatusCode.BadRequest, null, "You need to supply either the Card, the Customer Token or a Card Token for payment");
             }
             var response = Requestor.PostString(url, postData);
-            return JsonConvert.DeserializeObject<ChargeResponse>(response);
+            
+            var returnResponse = JsonConverter.Deserialize<ChargeResponse>(response);
 
+            return returnResponse;
         }
 
         public Charges ChargesSearch(ChargeSearch cs)
@@ -93,16 +102,23 @@ namespace PinPayments
             var url = ParameterBuilder.ApplyAllParameters(cs, Urls.ChargesSearch);
 
             var response = Requestor.GetString(url);
-            return JsonConvert.DeserializeObject<Charges>(response);
+            using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(response)))
+            {
+                DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(Charges));
+                object objResponse = jsonSerializer.ReadObject(ms);
+                var result = objResponse as Charges;
+
+                return result;
+            }
         }
 
         public CustomerAdd CustomerAdd(Customer c)
         {
             var url = Urls.CustomerAdd;
             var postData = ParameterBuilder.ApplyAllParameters(c, "");
-
             var response = Requestor.PostString(url, postData);
-            var customerAdd = JsonConvert.DeserializeObject<CustomerAdd>(response);
+
+            var customerAdd = JsonConverter.Deserialize<CustomerAdd>(response);
 
             return customerAdd;
         }
@@ -113,8 +129,11 @@ namespace PinPayments
             var postData = ParameterBuilder.ApplyAllParameters(c, "");
 
             var response = Requestor.PutString(url, postData);
-            var result = JsonConvert.DeserializeObject<CustomerUpdate>(response);
+
+            var result = JsonConverter.Deserialize<CustomerUpdate>(response);
+          
             return result;
+          
         }
 
         public Customers Customers()
@@ -131,25 +150,26 @@ namespace PinPayments
             }
             var response = Requestor.GetString(url);
 
-
-            var result = JsonConvert.DeserializeObject<Customers>(response);
+            var result = JsonConverter.Deserialize<Customers>(response);
+          
             return result;
+          
         }
 
         public RefundResponse Refund(string chargeToken, int amount)
         {
             var url = Urls.Refund;
             var response = Requestor.PostString(url.Replace("{token}", chargeToken), "amount=" + amount.ToString());
-            var result = JsonConvert.DeserializeObject<RefundResponse>(response);
-            return result;
+
+            return JsonConverter.Deserialize<RefundResponse>(response);
         }
 
         public RefundsResponse Refunds(string chargeToken)
         {
             var url = Urls.Refund;
             var response = Requestor.GetString(url.Replace("{token}", chargeToken));
-            var result = JsonConvert.DeserializeObject<RefundsResponse>(response);
-            return result;
+
+            return JsonConverter.Deserialize<RefundsResponse>(response);
         }
 
         public Customer Customer(string token)
@@ -157,7 +177,9 @@ namespace PinPayments
             var url = Urls.Customers + "/" + token;
 
             var response = Requestor.GetString(url);
-            var customer = JsonConvert.DeserializeObject<CustomerAdd>(response);
+
+            var customer = JsonConverter.Deserialize<CustomerAdd>(response);
+
             return customer.Response;
         }
     }

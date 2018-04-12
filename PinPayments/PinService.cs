@@ -158,7 +158,7 @@ namespace PinPayments
 
             var response = Requestor.GetString(url);
             var customer = JsonConvert.DeserializeObject<CustomerAdd>(response);
-            return customer.Response;
+            return customer.Customer;
         }
     }
 }

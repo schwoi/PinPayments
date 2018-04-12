@@ -51,13 +51,13 @@ namespace PinPayments.Console
 
             var respChargesSearch = ps.ChargesSearch(new Actions.ChargeSearch { Query = "", Sort = ChargeSearchSortEnum.Amount, SortDirection = SortDirectionEnum.Descending });
             System.Console.WriteLine(respChargesSearch.Count.ToString() + " transactions found");
-            foreach (var r in respChargesSearch.Response)
+            foreach (var r in respChargesSearch.Charge)
             {
                 System.Console.WriteLine(r.Description + " " + r.Amount.ToString());
             }
 
-            var respChargeSearch = ps.Charge(respChargesSearch.Response[0].Token);
-            System.Console.WriteLine(respChargeSearch.Response.Description);
+            var respChargeSearch = ps.Charge(respChargesSearch.Charge[0].Token);
+            System.Console.WriteLine(respChargeSearch.Charge.Description);
 
 
             // Create Customer
@@ -79,7 +79,7 @@ namespace PinPayments.Console
             customer.Card.Country = "Australia";
 
             var respCustomer = ps.CustomerAdd(customer);
-            System.Console.WriteLine("Customer token: " + respCustomer.Response.Token);
+            System.Console.WriteLine("Customer token: " + respCustomer.Customer.Token);
 
             // Get Customer
             var customers = ps.Customers();
@@ -143,8 +143,6 @@ namespace PinPayments.Console
             response = ps.Charge(new PostCharge { Amount = 1500, CardToken = card.Token, Currency = "AUD", Description = "Desc", Email = "email@test.com", IPAddress = "127.0.0.1" });
             System.Console.WriteLine(response.Error); // "token_already_used"
             System.Console.WriteLine(response.Description); // "Token already used. Card tokens can only be used once, to create a charge or assign a card to a customer."
-
-
 
         }
     }

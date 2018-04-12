@@ -1,51 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace PinPayments.Models
 {
+    [DataContract]
     public class PinError
     {
-        [JsonProperty("error")]
+        [DataMember(Name = "error")]
         public string Error { get; set; }
 
-        [JsonProperty("error_description")]
+        [DataMember(Name = "error_description")]
         public string Description { get; set; }
 
-        [JsonProperty("charge_token")]
+        [DataMember(Name = "charge_token")]
         public string Token { get; set; }
 
+        [DataMember(Name = "messages")]
         public ErrorMessage[] Messages { get; set; }
     }
-
+    [DataContract]
     public class PinRefundError
     {
-        [JsonProperty("error")]
+        [DataMember(Name = "error")]
         public string Error { get; set; }
 
-        [JsonProperty("error_description")]
+        [DataMember(Name = "error_description")]
         public string Description { get; set; }
 
-        [JsonProperty("charge_token")]
+        [DataMember(Name = "charge_token")]
         public string Token { get; set; }
 
         public ErrorMessage Messages { get; set; }
     }
-
+    [DataContract]
     public class ErrorMessage
     {
-        [JsonProperty("code")]
+        [DataMember(Name = "code")]
         public string Code { get; set; }
 
-        [JsonProperty("message")]
+        [DataMember(Name = "message")]
         public string Message { get; set; }
 
-        [JsonProperty("param")]
+        [DataMember(Name = "param")]
         public string Param { get; set; }
 
-        [JsonProperty("charge")]
+        [DataMember(Name = "charge")]
         public string[] Charge { get; set; }
 
     }

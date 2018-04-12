@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace PinPayments.Actions
 {
+    [DataContract]
     public class Pagination
     {
-        [JsonProperty("current")]
+
+        [DataMember(Name = "current")]
         public int Current { get; set; }
 
-        [JsonProperty("previous")]
+        [DataMember(Name = "previous")]
         public int? Previous { get; set; }
 
-        [JsonProperty("next")]
+        [DataMember(Name = "next")]
         public int? Next { get; set; }
 
-        [JsonProperty("per_page")]
+        [DataMember(Name = "per_page")]
         public int PageSize { get; set; }
 
-        [JsonProperty("pages")]
+        [DataMember(Name = "pages")]
         public int? Pages { get; set; }
 
-        [JsonProperty("count")]
+        [DataMember(Name = "count")]
         public int Count { get; set; }
 
     }

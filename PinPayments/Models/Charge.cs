@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
 using PinPayments.Actions;
 
 namespace PinPayments.Models
 {
+    [DataContract]
     public class Charges:PinError
     {
         public Charge[] Response { get; set; }
@@ -14,29 +15,31 @@ namespace PinPayments.Models
         public Pagination Pagination { get; set; }
     }
 
+    [DataContract]
     public class ChargeResponse:PinError
     {
-         [JsonProperty("response")]
+         [DataMember(Name = "response")]
         public Charge Charge{ get; set; }
     }
 
+    [DataContract]
     public class PostCharge
     {
-        [JsonProperty("email")]
+        [DataMember(Name = "email")]
         public string Email { get; set; }
 
-        [JsonProperty("description")]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [JsonProperty("amount")]
+        [DataMember(Name = "amount")]
         public long Amount { get; set; }
 
-        [JsonProperty("ip_address")]
+        [DataMember(Name = "ip_address")]
         public string IPAddress { get; set; }
 
         private string _currency { get; set; }
 
-        [JsonProperty("currency")]
+        [DataMember(Name = "currency")]
         public string Currency
         {
             get
@@ -50,13 +53,13 @@ namespace PinPayments.Models
             set { _currency = value; }
         }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public Card Card { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public string CardToken { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public string CustomerToken { get; set; }
 
     }
@@ -65,44 +68,46 @@ namespace PinPayments.Models
     {
         public Charge Response { get; set; }
     }
+    [DataContract]
     public class Charge
     {
-        [JsonProperty("token")]
+        [DataMember(Name = "token")]
         public string Token { get; set; }
 
-        [JsonProperty("success")]
+        [DataMember(Name = "success")]
         public bool Success { get; set; }
 
-        [JsonProperty("amount")]
+        [DataMember(Name = "amount")]
         public long Amount { get; set; }
 
-        [JsonProperty("currency")]
+        [DataMember(Name = "currency")]
         public string Currency { get; set; }
 
-        [JsonProperty("description")]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [JsonProperty("email")]
+        [DataMember(Name = "email")]
         public string Email { get; set; }
 
-        [JsonProperty("ip_address")]
+        [DataMember(Name = "ip_address")]
         public string IP_address { get; set; }
 
-        [JsonProperty("created_at")]
+        [DataMember(Name = "created_at")]
         public DateTime Created { get; set; }
 
-        [JsonProperty("error_message")]
+        [DataMember(Name = "error_message")]
         public string ErrorMessage { get; set; }
 
-        [JsonProperty("status_message")]
+        [DataMember(Name = "status_message")]
         public string Status { get; set; }
 
-        [JsonProperty("card_token")]
+        [DataMember(Name = "card_token")]
         public string Card_Token { get; set; }
 
-        [JsonProperty("customer_token")]
+        [DataMember(Name = "customer_token")]
         public string Customer_Token { get; set; }
 
+        [DataMember(Name = "card")]
         public Card Card { get; set; }
 
     }

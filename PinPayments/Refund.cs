@@ -2,48 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using PinPayments.Models;
 using PinPayments.Actions;
+using System.Runtime.Serialization;
 
 namespace PinPayments
 {
+    [DataContract]
     public class RefundResponse : PinRefundError
     {
+        [DataMember(Name = "response")]
         public Refund Response { get; set; }
+        [DataMember(Name = "pagination")]
         public Pagination Pagination { get; set; }
     }
 
+    [DataContract]
     public class RefundsResponse : PinError
     {
+        [DataMember(Name = "response")]
         public Refund[] Response { get; set; }
+        [DataMember(Name = "pagination")]
         public Pagination Pagination { get; set; }
     }
 
+    [DataContract]
     public class Refund
     {
-        [JsonProperty("token")]
+        [DataMember(Name = "token")]
         public string Token{get;set;}
 
-        [JsonProperty("success")]
+        [DataMember(Name = "success")]
         public bool? Success { get; set; }
         
-        [JsonProperty("amount")]
+        [DataMember(Name = "amount")]
         public long Amount { get; set; }
 
-        [JsonProperty("currency")]
+        [DataMember(Name = "currency")]
         public string Currency { get; set; }
 
-        [JsonProperty("charge")]
+        [DataMember(Name = "charge")]
         public string Charge { get; set; }
         
-        [JsonProperty("created_at")]
+        [DataMember(Name = "created_at")]
         public DateTime Created { get; set; }
 
-        [JsonProperty("error_message")]
+        [DataMember(Name = "error_message")]
         public string ErrorMessage { get; set; }
 
-        [JsonProperty("status_message")]
+        [DataMember(Name = "status_message")]
         public string Status{ get; set; }
     }
 }

@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace PinPayments.Actions
 {
     public class ChargeSearch
     {
-        [JsonProperty("query")]
+        
+        [DataMember(Name = "query")]
         public string Query{get;set;}
         
-        [JsonProperty("startDate")]
+        [DataMember(Name = "startDate")]
         public DateTime? StartDate{get;set;}
         
-        [JsonProperty("endDate")]
+        [DataMember(Name = "endDate")]
         public DateTime? EndDate{get;set;}
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public ChargeSearchSortEnum Sort {get;set;}
 
-        [JsonProperty("sort")]
+        [DataMember(Name = "sort")]
         private string sort
         {
             get
@@ -40,10 +40,10 @@ namespace PinPayments.Actions
             }
         }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public SortDirectionEnum SortDirection { get; set; }
 
-        [JsonProperty("direction")]
+        [DataMember(Name = "direction")]
         private int direction
         {
             get

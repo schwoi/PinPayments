@@ -1,62 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace PinPayments.Models
 {
+    [DataContract]
     public class CardCreateResponse : PinError
     {
-        public Card Response { get; set; }
+        [DataMember(Name = "response")]
+        public Card Card { get; set; }
     }
 
-    [JsonObject("card")]
+    [DataContract(Name = "card")]
     public class Card
     {
-        [JsonProperty("token")]
+        [DataMember(Name = "token")]
         public string Token { get; set; }
 
-        [JsonProperty("number")]
+        [DataMember(Name = "number")]
         public string CardNumber { get; set; }
 
-        [JsonProperty("cvc")]
+        [DataMember(Name = "cvc")]
         public string CVC { get; set; }
 
-        [JsonProperty("display_number")]
+        [DataMember(Name = "display_number")]
         public string DisplayNumber { get; set; }
 
-        [JsonProperty("Expiry_month")]
+        [DataMember(Name = "expiry_month")]
         public string ExpiryMonth { get; set; }
 
-        [JsonProperty("expiry_year")]
+        [DataMember(Name = "expiry_year")]
         public string ExpiryYear { get; set; }
 
-        [JsonProperty("name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [JsonProperty("address_line1")]
+        [DataMember(Name = "address_line1")]
         public string Address1 { get; set; }
 
-        [JsonProperty("address_line2")]
+        [DataMember(Name = "address_line2")]
         public string Address2 { get; set; }
 
-        [JsonProperty("address_city")]
+        [DataMember(Name = "address_city")]
         public string City { get; set; }
 
-        [JsonProperty("Address_postcode")]
+        [DataMember(Name = "address_postcode")]
         public string Postcode { get; set; }
 
-        [JsonProperty("address_state")]
+        [DataMember(Name = "address_state")]
         public string State { get; set; }
 
-        [JsonProperty("address_country")]
+        [DataMember(Name = "address_country")]
         public string Country { get; set; }
 
-        [JsonProperty("scheme")]
+        [DataMember(Name = "scheme")]
         public string Scheme { get; set; }
 
-        [JsonProperty("publishable_api_key")]
+        [DataMember(Name = "publishable_api_key")]
         public string APIKey { get; set; }
+
+        [DataMember(Name = "card_token")]
+        public string CardToken { get; set; }
+
+        [DataMember(Name = "customer_token")]
+        public string CustomerToken { get; set; }
     }
 }

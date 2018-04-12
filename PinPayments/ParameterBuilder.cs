@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Newtonsoft.Json;
 using System.Web;
+using System.Runtime.Serialization;
 
 namespace PinPayments
 {
     internal static class ParameterBuilder
     {
-        public static string ApplyAllParameters(object obj, string url)
+       public static string ApplyAllParameters(object obj, string url)
         {
             if (obj == null) return url;
 
@@ -18,17 +18,29 @@ namespace PinPayments
 
             foreach (var property in obj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
             {
-                foreach (var attribute in property.GetCustomAttributes(false))
+               
+                var attribs = property.GetCustomAttributes(false);
+                var ignoreCase = attribs.Any(a => a.GetType().Equals(typeof(IgnoreDataMemberName)));
+                var isDataMember = attribs.Any(a => a.GetType().Equals(typeof(DataMemberAttribute)));
+                
+                if (isDataMember && ignoreCase)
                 {
-                    if (attribute.GetType() != typeof(JsonPropertyAttribute)) continue;
+                    var value = property.GetValue(obj, null);
 
-                    var JsonPropertyAttribute = (JsonPropertyAttribute)attribute;
+                    if (value != null)
+                    {
+                        newUrl = ApplyParameterToUrl(newUrl, property.Name, value.ToString());
+                    }
+                }
+                if (isDataMember && !ignoreCase)
+                {
+                    var JsonPropertyAttribute = (DataMemberAttribute)attribs.FirstOrDefault(a => a.GetType().Equals(typeof(DataMemberAttribute)));
 
                     var value = property.GetValue(obj, null);
 
                     if (value != null)
                     {
-                        newUrl = ApplyParameterToUrl(newUrl, JsonPropertyAttribute.PropertyName, value.ToString());
+                        newUrl = ApplyParameterToUrl(newUrl, JsonPropertyAttribute.Name, value.ToString());
                     }
                 }
             }
@@ -39,6 +51,7 @@ namespace PinPayments
             }
             return newUrl;
         }
+
 
         public static string ApplyParameterToUrl(string url, string argument, string value)
         {

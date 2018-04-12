@@ -7,8 +7,9 @@ namespace PinPayments.Models
 {
     public class Message
     {
-        public string code { get; set; }
+        
+        public string Code { get; set; }
         public string message { get; set; }
-        public string param { get; set; }
+        public string Param { get; set; }
     }
 }

@@ -12,11 +12,13 @@ namespace PinPayments.Models
         [JsonProperty("response")]
         public Customer[] Customer { get; set; }
         public Pagination Pagination { get; set; }
+        public int Count { get; set; }
     }
 
     public class CustomerAdd:PinError
     {
-        public Customer Response { get; set; }
+        [JsonProperty("response")]
+        public Customer Customer { get; set; }
     }
     public class Customer
     {

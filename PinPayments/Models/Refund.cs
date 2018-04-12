@@ -6,18 +6,23 @@ using Newtonsoft.Json;
 using PinPayments.Models;
 using PinPayments.Actions;
 
-namespace PinPayments
+namespace PinPayments.Models
 {
+     
     public class RefundResponse : PinRefundError
     {
-        public Refund Response { get; set; }
+        [JsonProperty("response")]
+        public Refund Refund { get; set; }
         public Pagination Pagination { get; set; }
+        public int Count { get; set; }
     }
 
     public class RefundsResponse : PinError
     {
-        public Refund[] Response { get; set; }
+        [JsonProperty("response")]
+        public Refund[] Refunds { get; set; }
         public Pagination Pagination { get; set; }
+        public int Count { get; set; }
     }
 
     public class Refund

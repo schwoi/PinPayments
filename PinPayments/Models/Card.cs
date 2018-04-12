@@ -8,7 +8,8 @@ namespace PinPayments.Models
 {
     public class CardCreateResponse : PinError
     {
-        public Card Response { get; set; }
+        [JsonProperty("response")]
+        public Card Card { get; set; }
     }
 
     [JsonObject("card")]

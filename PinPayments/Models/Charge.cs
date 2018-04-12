@@ -9,7 +9,8 @@ namespace PinPayments.Models
 {
     public class Charges:PinError
     {
-        public Charge[] Response { get; set; }
+        [JsonProperty("response")] //TODO: Fix Naming
+        public Charge[] Charge { get; set; }
         public int Count { get; set; }
         public Pagination Pagination { get; set; }
     }
@@ -63,7 +64,8 @@ namespace PinPayments.Models
 
     public class ChargeDetail
     {
-        public Charge Response { get; set; }
+        [JsonProperty("response")]
+        public Charge Charge { get; set; }
     }
     public class Charge
     {
@@ -86,7 +88,7 @@ namespace PinPayments.Models
         public string Email { get; set; }
 
         [JsonProperty("ip_address")]
-        public string IP_address { get; set; }
+        public string IPAddress { get; set; }
 
         [JsonProperty("created_at")]
         public DateTime Created { get; set; }
@@ -98,10 +100,10 @@ namespace PinPayments.Models
         public string Status { get; set; }
 
         [JsonProperty("card_token")]
-        public string Card_Token { get; set; }
+        public string CardToken { get; set; }
 
         [JsonProperty("customer_token")]
-        public string Customer_Token { get; set; }
+        public string CustomerToken { get; set; }
 
         public Card Card { get; set; }
 

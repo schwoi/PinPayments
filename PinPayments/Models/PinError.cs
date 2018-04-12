@@ -46,7 +46,7 @@ namespace PinPayments.Models
         public string Param { get; set; }
 
         [JsonProperty("charge")]
-        public string[] Charge { get; set; }
+        public string[] Charges { get; set; }
 
     }
 }

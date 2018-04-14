@@ -12,7 +12,7 @@ namespace PinPayments.Models
         public string Error { get; set; }
         [JsonProperty("error_description")]
         public string ErrorDescription { get; set; }
-        [JsonProperty("charge_token")]
+        [JsonProperty("token")]
         public string ChargeToken { get; set; }
         public Message[] Messages { get; set; }
         
